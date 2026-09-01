@@ -1,34 +1,19 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Bot, ArrowRight, Sparkles, ShieldCheck, UserCheck, Lock } from 'lucide-react';
+import { Bot, ArrowRight, Sparkles, Mail, Lock } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const [activeRoleTab, setActiveRoleTab] = useState<'CANDIDATE' | 'ADMIN'>('CANDIDATE');
   const [email, setEmail] = useState('aniket@jobpilot.io');
   const [password, setPassword] = useState('password123');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const loggedUser = await login(email, password, activeRoleTab);
-    
-    if (loggedUser.role === 'ADMIN') {
-      navigate('/admin');
-    } else {
-      navigate('/dashboard');
-    }
-  };
-
-  const handleTabChange = (role: 'CANDIDATE' | 'ADMIN') => {
-    setActiveRoleTab(role);
-    if (role === 'ADMIN') {
-      setEmail('admin@jobpilot.io');
-    } else {
-      setEmail('aniket@jobpilot.io');
-    }
+    await login(email, password, 'CANDIDATE');
+    navigate('/dashboard');
   };
 
   return (
@@ -47,85 +32,62 @@ export const LoginPage: React.FC = () => {
           <p className="text-xs text-slate-400">Autonomous Job Discovery & Application SaaS Platform</p>
         </div>
 
-        {/* Candidate vs Admin Login Mode Selector */}
-        <div className="p-1.5 rounded-2xl bg-slate-900 border border-slate-800 flex items-center gap-1">
-          <button
-            type="button"
-            onClick={() => handleTabChange('CANDIDATE')}
-            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 ${
-              activeRoleTab === 'CANDIDATE'
-                ? 'bg-brand-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <UserCheck className="w-4 h-4" />
-            <span>Candidate Sign In</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => handleTabChange('ADMIN')}
-            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 ${
-              activeRoleTab === 'ADMIN'
-                ? 'bg-indigo-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <ShieldCheck className="w-4 h-4" />
-            <span>Admin Sign In</span>
-          </button>
-        </div>
-
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-              {activeRoleTab === 'ADMIN' ? 'Admin Email Address' : 'Candidate Work Email'}
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white focus:outline-none focus:border-brand-500 font-medium"
-              required
-            />
+            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Work Email</label>
+            <div className="relative">
+              <Mail className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500" />
+              <input
+                type="email"
+                placeholder="you@company.com"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white focus:outline-none focus:border-brand-500 font-medium"
+                required
+              />
+            </div>
           </div>
 
           <div>
             <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white focus:outline-none focus:border-brand-500 font-medium"
-              required
-            />
+            <div className="relative">
+              <Lock className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500" />
+              <input
+                type="password"
+                placeholder="••••••••••••"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white focus:outline-none focus:border-brand-500 font-medium"
+                required
+              />
+            </div>
           </div>
 
           <button
             type="submit"
-            className={`w-full py-3.5 rounded-xl font-bold text-sm shadow-lg flex items-center justify-center gap-2 transition ${
-              activeRoleTab === 'ADMIN'
-                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-indigo-600/30'
-                : 'bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white shadow-brand-600/30'
-            }`}
+            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-brand-600/30 flex items-center justify-center gap-2 transition"
           >
-            <span>{activeRoleTab === 'ADMIN' ? 'Sign In as Admin' : 'Sign In as Candidate'}</span>
+            <span>Sign In</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        {activeRoleTab === 'CANDIDATE' ? (
-          <div className="text-center text-xs text-slate-400 pt-2">
-            Don't have an account yet?{' '}
-            <Link to="/register" className="font-bold text-brand-400 hover:text-brand-300">
-              Create Candidate Account
-            </Link>
-          </div>
-        ) : (
-          <div className="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-center text-xs text-indigo-300">
-            Admin access grants rights to manage 50,000+ monitored company target URLs and worker pool metrics.
-          </div>
-        )}
+        <div className="text-center text-xs text-slate-400 pt-2">
+          Don't have an account yet?{' '}
+          <Link to="/register" className="font-bold text-brand-400 hover:text-brand-300">
+            Sign Up
+          </Link>
+        </div>
+
+        <div className="pt-4 border-t border-slate-800 flex items-center justify-center gap-4 text-xs font-semibold text-slate-400">
+          <button onClick={handleSubmit} className="hover:text-white flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-brand-400" /> Google OAuth
+          </button>
+          <span>•</span>
+          <button onClick={handleSubmit} className="hover:text-white flex items-center gap-1.5">
+            GitHub OAuth
+          </button>
+        </div>
       </div>
     </div>
   );

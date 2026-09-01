@@ -11,12 +11,12 @@ import { SubscriptionPage } from './pages/SubscriptionPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { AdminPage } from './pages/AdminPage';
 import { LoginPage } from './pages/LoginPage';
+import { AdminLoginPage } from './pages/AdminLoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { LandingPage } from './pages/LandingPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { TermsPage } from './pages/TermsPage';
 import { ContactPage } from './pages/ContactPage';
-
 import { ResumeAnalyzerPage } from './pages/ResumeAnalyzerPage';
 
 const ProtectedLayout: React.FC = () => {
@@ -40,7 +40,10 @@ const ProtectedLayout: React.FC = () => {
             <Route path="/resumes" element={<ResumesPage />} />
             <Route path="/subscription" element={<SubscriptionPage />} />
             <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/admin" element={<AdminPage />} />
+            <Route
+              path="/admin"
+              element={user.role === 'ADMIN' ? <AdminPage /> : <Navigate to="/dashboard" replace />}
+            />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </main>
@@ -57,6 +60,7 @@ export function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/admin/login" element={<AdminLoginPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/contact" element={<ContactPage />} />
