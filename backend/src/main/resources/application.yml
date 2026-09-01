@@ -1,0 +1,72 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+spring:
+  application:
+    name: jobpilot-backend
+  profiles:
+    active: dev
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/jobpilot_db}
+    username: ${SPRING_DATASOURCE_USERNAME:jobpilot_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:jobpilot_password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: ${SPRING_REDIS_PORT:6379}
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:jobpilot}
+    password: ${SPRING_RABBITMQ_PASSWORD:jobpilot123}
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:google-client-id-placeholder}
+            client-secret: ${GOOGLE_CLIENT_SECRET:google-client-secret-placeholder}
+            scope: email, profile
+          github:
+            client-id: ${GITHUB_CLIENT_ID:github-client-id-placeholder}
+            client-secret: ${GITHUB_CLIENT_SECRET:github-client-secret-placeholder}
+            scope: user:email, read:user
+
+jwt:
+  secret: ${JWT_SECRET:jobpilot_super_secret_jwt_key_with_at_least_32_bytes_long_string!!}
+  expiration-ms: 86400000 # 24 hours
+  refresh-expiration-ms: 604800000 # 7 days
+
+jobpilot:
+  rabbitmq:
+    exchange: jobpilot.exchange
+    queues:
+      scanner: jobpilot.scanner.queue
+      application: jobpilot.application.queue
+      notification: jobpilot.notification.queue
+    routing-keys:
+      scanner: jobpilot.scanner.routing
+      application: jobpilot.application.routing
+      notification: jobpilot.notification.routing
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method

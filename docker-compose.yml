@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: jobpilot-postgres
+    environment:
+      POSTGRES_DB: jobpilot_db
+      POSTGRES_USER: jobpilot_user
+      POSTGRES_PASSWORD: jobpilot_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jobpilot_user -d jobpilot_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: jobpilot-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: jobpilot-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: jobpilot
+      RABBITMQ_DEFAULT_PASS: jobpilot123
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: jobpilot-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/jobpilot_db
+      SPRING_DATASOURCE_USERNAME: jobpilot_user
+      SPRING_DATASOURCE_PASSWORD: jobpilot_password
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: jobpilot
+      SPRING_RABBITMQ_PASSWORD: jobpilot123
+      JWT_SECRET: jobpilot_super_secret_jwt_key_with_at_least_32_bytes_long_string!!
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  automation-service:
+    build:
+      context: ./automation-service
+      dockerfile: Dockerfile
+    container_name: jobpilot-automation
+    environment:
+      RABBITMQ_URL: amqp://jobpilot:jobpilot123@rabbitmq:5672
+      BACKEND_API_URL: http://backend:8080/api/v1
+      HEADLESS: "true"
+      MAX_WORKERS: "4"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      backend:
+        condition: service_started
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: jobpilot-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
