@@ -27,7 +27,16 @@ export const Header: React.FC = () => {
             {user?.fullName?.charAt(0) || 'A'}
           </div>
           <div className="hidden sm:block text-left">
-            <p className="text-xs font-bold text-slate-200">{user?.fullName}</p>
+            <div className="flex items-center gap-1.5">
+              <p className="text-xs font-bold text-slate-200">{user?.fullName}</p>
+              <span className={`px-1.5 py-0.2 rounded text-[9px] font-extrabold uppercase ${
+                user?.role === 'ADMIN'
+                  ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30'
+                  : 'bg-brand-500/20 text-brand-400 border border-brand-500/30'
+              }`}>
+                {user?.role}
+              </span>
+            </div>
             <p className="text-[10px] text-slate-400 font-medium">{user?.email}</p>
           </div>
           <button

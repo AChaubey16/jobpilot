@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import {
   LayoutDashboard,
   Briefcase,
@@ -13,16 +14,25 @@ import {
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
-  const navItems = [
-    { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { to: '/jobs', label: 'Job Discovery', icon: Briefcase },
-    { to: '/applications', label: 'Applications', icon: FileCheck2 },
-    { to: '/resume-analyzer', label: 'ATS Analyzer', icon: Sparkles },
-    { to: '/resumes', label: 'Resumes', icon: FileText },
-    { to: '/subscription', label: 'Subscription', icon: CreditCard },
-    { to: '/settings', label: 'Settings', icon: Settings },
-    { to: '/admin', label: 'Admin Panel', icon: ShieldCheck },
+  const { user } = useAuth();
+
+  const allNavItems = [
+    { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roleRequired: 'CANDIDATE' },
+    { to: '/jobs', label: 'Job Discovery', icon: Briefcase, roleRequired: 'CANDIDATE' },
+    { to: '/applications', label: 'Applications', icon: FileCheck2, roleRequired: 'CANDIDATE' },
+    { to: '/resume-analyzer', label: 'ATS Analyzer', icon: Sparkles, roleRequired: 'CANDIDATE' },
+    { to: '/resumes', label: 'Resumes', icon: FileText, roleRequired: 'CANDIDATE' },
+    { to: '/subscription', label: 'Subscription', icon: CreditCard, roleRequired: 'CANDIDATE' },
+    { to: '/settings', label: 'Settings', icon: Settings, roleRequired: 'CANDIDATE' },
+    { to: '/admin', label: 'Admin Panel', icon: ShieldCheck, roleRequired: 'ADMIN' },
   ];
+
+  const navItems = allNavItems.filter(item => {
+    if (item.roleRequired === 'ADMIN') {
+      return user?.role === 'ADMIN';
+    }
+    return true;
+  });
 
   return (
     <aside className="w-64 glass-card border-r border-slate-800 flex flex-col h-screen sticky top-0 z-30">
