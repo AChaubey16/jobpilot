@@ -157,3 +157,17 @@ CREATE TABLE settings (
 CREATE INDEX idx_jobs_posting_date ON jobs(posting_date);
 CREATE INDEX idx_applications_user_status ON applications(user_id, status);
 CREATE INDEX idx_notifications_user_unread ON notifications(user_id, is_read);
+
+-- Initial Super Admin Seed Data for First System Startup
+INSERT INTO users (id, email, password_hash, full_name, role, provider, created_at, updated_at)
+VALUES (
+    'admin-root-001',
+    'admin@jobpilot.io',
+    '$2a$10$e8Kz...BCryptHashedPassword...',
+    'System Administrator',
+    'ROLE_ADMIN',
+    'LOCAL',
+    CURRENT_TIMESTAMP,
+    CURRENT_TIMESTAMP
+) ON CONFLICT (email) DO NOTHING;
+
