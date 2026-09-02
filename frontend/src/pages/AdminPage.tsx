@@ -135,6 +135,12 @@ export const AdminPage: React.FC = () => {
     );
   };
 
+  const handleDeletePortal = (id: string, name: string) => {
+    setPortals(prev => prev.filter(p => p.id !== id));
+    setSuccessMsg(`Deleted career portal URL for ${name} from Playwright scanner target list.`);
+    setTimeout(() => setSuccessMsg(''), 3500);
+  };
+
   return (
     <div className="space-y-8 pb-12">
       {/* Hidden CSV File Input */}
@@ -343,12 +349,20 @@ export const AdminPage: React.FC = () => {
                       {p.status}
                     </span>
                   </td>
-                  <td className="p-3.5 text-right">
+                  <td className="p-3.5 text-right flex items-center justify-end gap-3">
                     <button
                       onClick={() => handleToggleStatus(p.id)}
                       className="text-xs font-bold text-brand-400 hover:underline"
                     >
                       {p.status === 'ACTIVE' ? 'Pause' : 'Activate'}
+                    </button>
+                    <button
+                      onClick={() => handleDeletePortal(p.id, p.companyName)}
+                      className="text-xs font-bold text-rose-400 hover:text-rose-300 flex items-center gap-1 hover:underline"
+                      title="Delete this career portal URL"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Delete</span>
                     </button>
                   </td>
                 </tr>
