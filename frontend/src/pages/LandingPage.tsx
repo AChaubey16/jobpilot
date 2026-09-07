@@ -782,7 +782,6 @@ export const LandingPage: React.FC = () => {
             <Link to="/privacy" className="hover:text-slate-300 transition">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-slate-300 transition">Terms of Service</Link>
             <Link to="/contact" className="hover:text-slate-300 transition">Contact Support</Link>
-            <Link to="/admin/login" className="hover:text-slate-300 transition">Owner Portal</Link>
           </div>
         </div>
       </footer>
