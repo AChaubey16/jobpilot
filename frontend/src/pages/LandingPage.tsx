@@ -87,10 +87,6 @@ export const LandingPage: React.FC = () => {
       a: 'We take data protection seriously. All master profile attributes, contact info, and uploaded resume files are encrypted in transit and at rest using bank-grade AES-256 encryption. We have a strict Zero-Data-Selling policy. Your data is used exclusively to automate application submissions on your behalf.'
     },
     {
-      q: 'Can I add custom company career links that are not in the default 50,000+ list?',
-      a: 'Yes! Admin & users can add single career URLs or bulk-upload CSV lists of custom company portal URLs. JobPilot automatically indexes the portal, detects its ATS architecture (Workday, Lever, Greenhouse, etc.), and begins monitoring it for new openings.'
-    },
-    {
       q: 'How quickly does JobPilot apply after a job is posted?',
       a: 'JobPilot background crawlers scan target portals every 15 minutes. Being among the first applicants (within 30 minutes of posting) increases your resume callback rate by up to 14.8x compared to applying 2 days later.'
     },
@@ -419,7 +415,7 @@ export const LandingPage: React.FC = () => {
             </span>
             <h2 className="text-3xl md:text-5xl font-extrabold text-white">Real-Time Portal Scanning Engine</h2>
             <p className="text-slate-400 text-sm md:text-base leading-relaxed">
-              Our crawlers check top company career portals every 15 minutes. Admin & users can also add custom career portal URLs anytime.
+              Our crawlers check top company career portals every 15 minutes to discover live openings.
             </p>
           </div>
 
