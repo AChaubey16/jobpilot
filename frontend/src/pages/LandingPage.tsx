@@ -244,24 +244,30 @@ export const LandingPage: React.FC = () => {
               <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Instant GST Invoices</li>
             </ul>
           </div>
-          <div className="text-center md:text-right space-y-4">
-            <div className="flex flex-col sm:flex-row items-center justify-end gap-6 text-left">
+          <div className="text-center md:text-right space-y-4 w-full md:w-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
               <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">6 Months</span>
-                <span className="text-3xl font-extrabold text-white">₹799</span>
+                <span className="text-2xl font-extrabold text-white">₹799</span>
               </div>
-              <div className="p-4 rounded-2xl bg-brand-950/60 border border-brand-500/40 space-y-1 relative">
-                <span className="text-[10px] font-bold text-brand-300 uppercase tracking-widest block">1 Year (Save 25%)</span>
-                <span className="text-3xl font-extrabold text-white">₹1199</span>
+              <div className="p-4 rounded-2xl bg-brand-950/60 border border-brand-500/40 space-y-1">
+                <span className="text-[10px] font-bold text-brand-300 uppercase tracking-widest block">1 Year Pass</span>
+                <span className="text-2xl font-extrabold text-white">₹1199</span>
+              </div>
+              <div className="p-4 rounded-2xl bg-purple-950/60 border border-purple-500/40 space-y-1 relative">
+                <span className="text-[10px] font-bold text-purple-300 uppercase tracking-widest block">👑 Lifetime Pass</span>
+                <span className="text-2xl font-extrabold text-white">₹2499</span>
               </div>
             </div>
-            <Link
-              to="/register"
-              className="inline-flex px-8 py-3.5 rounded-2xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-brand-600/30 items-center gap-2 transition"
-            >
-              <span>Get Started Now</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <div className="flex justify-end">
+              <Link
+                to="/register"
+                className="w-full sm:w-auto inline-flex px-8 py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 via-pink-600 to-brand-600 hover:from-purple-500 hover:to-brand-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 items-center justify-center gap-2 transition"
+              >
+                <span>Get Lifetime Access for ₹2499</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
         </section>
       </main>

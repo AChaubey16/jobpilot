@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CreditCard, CheckCircle2, ShieldCheck, Sparkles, Download, Receipt, ArrowRight } from 'lucide-react';
 
 export const SubscriptionPage: React.FC = () => {
-  const [selectedPlan, setSelectedPlan] = useState<'6MONTHS' | '1YEAR'>('1YEAR');
+  const [selectedPlan, setSelectedPlan] = useState<'6MONTHS' | '1YEAR' | 'LIFETIME'>('LIFETIME');
   const [subscribing, setSubscribing] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -15,7 +15,7 @@ export const SubscriptionPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 pb-12 max-w-5xl">
+    <div className="space-y-8 pb-12 max-w-6xl">
       <div>
         <h1 className="text-2xl font-extrabold text-white">Subscription & Plan Management</h1>
         <p className="text-slate-400 text-sm">
@@ -30,22 +30,22 @@ export const SubscriptionPage: React.FC = () => {
         </div>
       )}
 
-      {/* Pricing Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* Pricing Cards Grid - 3 Tiers */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* 6 Months Plan - ₹799 */}
         <div
           onClick={() => setSelectedPlan('6MONTHS')}
-          className={`p-8 rounded-3xl glass-card border flex flex-col justify-between cursor-pointer transition ${
+          className={`p-6 rounded-3xl glass-card border flex flex-col justify-between cursor-pointer transition ${
             selectedPlan === '6MONTHS'
               ? 'border-brand-500/50 bg-gradient-to-b from-brand-950/40 via-slate-900 to-slate-900 shadow-xl'
               : 'border-slate-800 bg-slate-900/40 hover:border-slate-700'
           }`}
         >
-          <div className="space-y-6">
+          <div className="space-y-5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">HALF-YEARLY PASS</span>
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">HALF-YEARLY PASS</span>
               {selectedPlan === '6MONTHS' && (
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-brand-500/10 text-brand-400 border border-brand-500/20">
                   SELECTED
                 </span>
               )}
@@ -53,8 +53,8 @@ export const SubscriptionPage: React.FC = () => {
 
             <div>
               <div className="flex items-baseline gap-2">
-                <span className="text-4xl font-extrabold text-white">₹799</span>
-                <span className="text-slate-400 text-sm font-medium">/ 6 months</span>
+                <span className="text-3xl font-extrabold text-white">₹799</span>
+                <span className="text-slate-400 text-xs font-medium">/ 6 months</span>
               </div>
               <p className="text-xs text-slate-400 mt-1">
                 Full access to JobPilot automation engine for 6 months.
@@ -64,7 +64,7 @@ export const SubscriptionPage: React.FC = () => {
             <ul className="space-y-2.5 text-xs text-slate-300">
               <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> 50,000+ Monitored Career Portals</li>
               <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Playwright Form Autofill Workers</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Real-Time Password & OTP Email Alerts</li>
+              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Real-Time Password & OTP Alerts</li>
               <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> 40+ ATS Parameter Scoring</li>
               <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> GST Invoice Included</li>
             </ul>
@@ -74,7 +74,7 @@ export const SubscriptionPage: React.FC = () => {
             <button
               onClick={handleCheckout}
               disabled={subscribing}
-              className="w-full py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs shadow-md flex items-center justify-center gap-2 transition"
+              className="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs shadow-md flex items-center justify-center gap-2 transition"
             >
               <span>{subscribing ? 'Processing...' : 'Subscribe 6 Months for ₹799'}</span>
             </button>
@@ -84,21 +84,21 @@ export const SubscriptionPage: React.FC = () => {
         {/* 1 Year Plan - ₹1199 (POPULAR) */}
         <div
           onClick={() => setSelectedPlan('1YEAR')}
-          className={`p-8 rounded-3xl glass-card border flex flex-col justify-between cursor-pointer transition relative ${
+          className={`p-6 rounded-3xl glass-card border flex flex-col justify-between cursor-pointer transition relative ${
             selectedPlan === '1YEAR'
-              ? 'border-brand-500/60 bg-gradient-to-br from-brand-950/50 via-slate-900 to-indigo-950/40 shadow-2xl scale-[1.02]'
+              ? 'border-brand-500/60 bg-gradient-to-br from-brand-950/50 via-slate-900 to-indigo-950/40 shadow-2xl'
               : 'border-slate-800 bg-slate-900/40 hover:border-slate-700'
           }`}
         >
-          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-brand-600 to-indigo-600 text-white font-extrabold text-[10px] uppercase tracking-widest shadow-md">
-            ★ MOST POPULAR • BEST VALUE
+          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-gradient-to-r from-brand-600 to-indigo-600 text-white font-extrabold text-[9px] uppercase tracking-widest shadow-md">
+            ★ MOST POPULAR
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-brand-300 uppercase tracking-widest">ANNUAL PASS</span>
+              <span className="text-[11px] font-bold text-brand-300 uppercase tracking-widest">ANNUAL PASS</span>
               {selectedPlan === '1YEAR' && (
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-brand-500/20 text-brand-300 border border-brand-500/30">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-brand-500/20 text-brand-300 border border-brand-500/30">
                   SELECTED
                 </span>
               )}
@@ -106,18 +106,18 @@ export const SubscriptionPage: React.FC = () => {
 
             <div>
               <div className="flex items-baseline gap-2">
-                <span className="text-4xl font-extrabold text-white">₹1199</span>
-                <span className="text-slate-400 text-sm font-medium">/ 1 year</span>
+                <span className="text-3xl font-extrabold text-white">₹1199</span>
+                <span className="text-slate-400 text-xs font-medium">/ 1 year</span>
               </div>
               <p className="text-xs text-slate-400 mt-1">
-                Save 25%! Full access to JobPilot automation engine for a full 365 days.
+                Save 25%! Full access for 365 days.
               </p>
             </div>
 
             <ul className="space-y-2.5 text-xs text-slate-300">
               <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> 50,000+ Monitored Career Portals</li>
               <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Playwright Form Autofill Workers</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Real-Time Password & OTP Email Alerts</li>
+              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Real-Time Password & OTP Alerts</li>
               <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> 40+ ATS Parameter Scoring</li>
               <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Priority Worker Queue Slots</li>
               <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> GST Invoice Included</li>
@@ -128,10 +128,64 @@ export const SubscriptionPage: React.FC = () => {
             <button
               onClick={handleCheckout}
               disabled={subscribing}
-              className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-brand-600/30 flex items-center justify-center gap-2 transition"
+              className="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs shadow-md flex items-center justify-center gap-2 transition"
+            >
+              <span>{subscribing ? 'Processing...' : 'Subscribe 1 Year for ₹1199'}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Lifetime Free Access Plan - ₹2499 (BEST VALUE) */}
+        <div
+          onClick={() => setSelectedPlan('LIFETIME')}
+          className={`p-6 rounded-3xl glass-card border flex flex-col justify-between cursor-pointer transition relative ${
+            selectedPlan === 'LIFETIME'
+              ? 'border-purple-500/60 bg-gradient-to-br from-purple-950/50 via-slate-900 to-brand-950/40 shadow-2xl scale-[1.02]'
+              : 'border-slate-800 bg-slate-900/40 hover:border-slate-700'
+          }`}
+        >
+          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-extrabold text-[9px] uppercase tracking-widest shadow-md">
+            👑 LIFETIME ACCESS • BEST VALUE
+          </div>
+
+          <div className="space-y-5">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-purple-300 uppercase tracking-widest">LIFETIME PASS</span>
+              {selectedPlan === 'LIFETIME' && (
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                  SELECTED
+                </span>
+              )}
+            </div>
+
+            <div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-3xl font-extrabold text-white">₹2499</span>
+                <span className="text-slate-400 text-xs font-medium">/ lifetime access</span>
+              </div>
+              <p className="text-xs text-slate-400 mt-1">
+                One-time payment. Never pay again. Full unlimited lifetime access!
+              </p>
+            </div>
+
+            <ul className="space-y-2.5 text-xs text-slate-300">
+              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-purple-400" /> Unlimited Lifetime Automation Runs</li>
+              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-purple-400" /> 50,000+ Monitored Career Portals</li>
+              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-purple-400" /> Playwright Form Autofill Workers</li>
+              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-purple-400" /> Real-Time OTP & Password Alerts</li>
+              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-purple-400" /> VIP Ultra-Fast Worker Queue</li>
+              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-purple-400" /> Unlimited ATS Audits & GST Invoice</li>
+            </ul>
+          </div>
+
+          <div className="pt-6 border-t border-slate-800/80 mt-6">
+            <button
+              onClick={handleCheckout}
+              disabled={subscribing}
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-brand-600 hover:from-purple-500 hover:to-brand-500 text-white font-bold text-xs shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 transition"
             >
               <CreditCard className="w-4 h-4" />
-              <span>{subscribing ? 'Processing Gateway...' : 'Subscribe 1 Year for ₹1199'}</span>
+              <span>{subscribing ? 'Processing Gateway...' : 'Get Lifetime Access for ₹2499'}</span>
             </button>
           </div>
         </div>
